@@ -2,15 +2,14 @@
   <input
     type="text"
     class="form-contol"
+    :placeholder="placeholder"
   />
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    type: { type: String, default: 'text' },
-  },
-}
+<script setup lang="ts">
+defineProps<{
+  placeholder: string
+}>()
 </script>
 
 <style scoped>
@@ -23,6 +22,6 @@ export default {
   }
   :focus {
     outline: none !important;
-    border: 1px solid var(--vt-c-green-ligth);
+    border: 1px solid var(--vt-c-green-light);
   }
 </style>
