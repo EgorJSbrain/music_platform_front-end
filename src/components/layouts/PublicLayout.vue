@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="wrapper">
       <h1>{{ title }}</h1>
-      <div class="form-wrapper"><slot></slot></div>
+      <form @submit.prevent="submitForm" class="form-wrapper"><slot></slot></form>
     </div>
   </div>
 </template>
@@ -10,6 +10,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string
+  submitForm?: () => void
 }>()
 </script>
 
