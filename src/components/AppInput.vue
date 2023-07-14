@@ -2,14 +2,36 @@
   <input
     type="text"
     class="form-contol"
-    :placeholder="placeholder"
+    v-model="value"
   />
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  placeholder: string
-}>()
+import { computed } from 'vue';
+
+// defineProps<{
+//   value: string
+//   placeholder: string
+// }>()
+
+// defineProps(['modelValue'])
+// defineEmits(['update:modelValue'])
+
+// const handleInput = (event: Event) => {
+//   return $emit('update:modelValue', event.target.value)
+// }
+
+const props = defineProps(['modelValue'])
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
 </script>
 
 <style scoped>
