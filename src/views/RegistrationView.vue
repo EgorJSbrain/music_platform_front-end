@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import AppInput from '@/components/AppInput.vue';
-import PublicLayout from '../components/layouts/PublicLayout.vue'
 import { ref } from 'vue';
-import { registartion } from '@/services/api';
+import { registartion } from '@/services/requests';
+
+import { ROUTES } from '@/constants/global'
+
+import AppInput from '@/components/AppInput.vue';
 import AppButton from '@/components/AppButton.vue';
+import PublicLayout from '@/components/layouts/PublicLayout.vue'
 
 const form = ref({
   email: '',
   firstName: '',
   lastName: '',
-  passwrod: '',
+  password: '',
 })
 
 const submitForm = async () => {
@@ -17,19 +20,25 @@ const submitForm = async () => {
     email: form.value.email,
     firstName: form.value.firstName,
     lastName: form.value.lastName,
-    passwrod: form.value.passwrod,
+    password: form.value.password,
   }
 
   const response = await registartion(formData)
+  console.log("🚀 ~ file: RegistrationView.vue:27 ~ submitForm ~ response:", response)
 }
 
 </script>
 <template>
-  <PublicLayout :submitForm="submitForm" title="Registration">
+    <PublicLayout
+      title="Registration"
+      :linkPath="ROUTES.login"
+      :linkLabel="'Do you have an account?'"
+      :submitForm="submitForm"
+    >
     <AppInput v-model="form.email" type="email" placeholder="Email"/>
     <AppInput v-model="form.firstName" type="text" placeholder="First name"/>
     <AppInput v-model="form.lastName" type="text" placeholder="Last name"/>
-    <AppInput v-model="form.passwrod" type="password" placeholder="Password"/>
+    <AppInput v-model="form.password" type="password" placeholder="Password"/>
     <AppButton title="Submit" />
   </PublicLayout>
 </template>
@@ -42,4 +51,4 @@ const submitForm = async () => {
     align-items: center;
   }
 }
-</style>
+</style>@/constants

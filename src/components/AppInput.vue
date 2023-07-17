@@ -9,18 +9,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-// defineProps<{
-//   value: string
-//   placeholder: string
-// }>()
-
-// defineProps(['modelValue'])
-// defineEmits(['update:modelValue'])
-
-// const handleInput = (event: Event) => {
-//   return $emit('update:modelValue', event.target.value)
-// }
-
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
 
