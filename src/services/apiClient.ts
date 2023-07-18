@@ -1,7 +1,8 @@
+import { LOCAL_STORAGE_ITEMS } from "@/constants/global";
 import axios, { type InternalAxiosRequestConfig } from "axios";
 
 const interceptorRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-  const accessToken = localStorage.getItem('')
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_ITEMS.accessToken)
   // const accessToken = localStorage.getItem(LOCAL_STORAGE_ITEMS.accessToken)
 
   if (accessToken) {
