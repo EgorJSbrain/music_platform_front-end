@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { registartion } from '@/services/requests';
+import { useAuthStore } from '@/stores/auth';
 
 import { ROUTES } from '@/constants/global'
 
 import AppInput from '@/components/AppInput.vue';
 import AppButton from '@/components/AppButton.vue';
 import PublicLayout from '@/components/layouts/PublicLayout.vue'
+
+const { registartion } = useAuthStore()
 
 const form = ref({
   email: '',
@@ -23,8 +25,7 @@ const submitForm = async () => {
     password: form.value.password,
   }
 
-  const response = await registartion(formData)
-  console.log("🚀 ~ file: RegistrationView.vue:27 ~ submitForm ~ response:", response)
+  await registartion(formData)
 }
 
 </script>
