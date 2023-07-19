@@ -1,10 +1,8 @@
 <script setup lang="ts">
+import PrivateLayout from '@/components/layouts/PrivateLayout.vue';
 import TheWelcome from '../components/TheWelcome.vue'
 </script>
 
 <template>
-  <main>
-    <div>1</div>
-    <!-- <TheWelcome /> -->
-  </main>
+  <PrivateLayout title="Home page" />
 </template>

@@ -2,29 +2,31 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LogInView from '@/views/LogInView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
+
 import { useAuthStore } from '@/stores/auth';
 import { LOCAL_STORAGE_ITEMS } from '@/constants/global';
+import { ROUTES, RouteNames } from '@/constants/global'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      meta: { isPrivate: true },
-      component: HomeView
+      path: ROUTES.home,
+      name: RouteNames.home,
+      component: HomeView,
+      meta: { isPrivate: true }
     },
     {
-      path: '/login',
-      name: 'login',
-      meta: { isPrivate: false },
-      component: LogInView
+      path: ROUTES.login,
+      name: RouteNames.login,
+      component: LogInView,
+      meta: { isPrivate: false }
     },
     {
-      path: '/registration',
-      name: 'registration',
-      meta: { isPrivate: false },
-      component: RegistrationView
+      path: ROUTES.registration,
+      name: RouteNames.registration,
+      component: RegistrationView,
+      meta: { isPrivate: false }
     },
     {
       path: '/about',
@@ -40,20 +42,22 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const { user, me } = useAuthStore()
 
-  if (to.meta.isPrivate && !user) {
-    const token = localStorage.getItem(LOCAL_STORAGE_ITEMS.accessToken)
+  const token = localStorage.getItem(LOCAL_STORAGE_ITEMS.accessToken)
 
+  if (to.meta.isPrivate && !user) {
     if (token) {
       const response = await me(token)
 
       if (response) {
-        next({ name: 'home' })
+        next({ name: RouteNames.home })
       } else {
-        next({ name: 'login' })
+        next({ name: RouteNames.login })
       }
     }
+  } else if (!to.meta.isPrivate && token) {
+    next({ name: RouteNames.home })
   }
-  // if (to.meta.isPrivate && !user) next({ name: 'login' })
+
   else next()
 })
 
