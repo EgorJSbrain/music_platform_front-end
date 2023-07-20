@@ -14,9 +14,9 @@ defineProps<{
     font-size: 18px;
     padding: 12px 8px;
     cursor: pointer;
+    font-weight: 600;
     border: none;
     background-color: var(--vt-c-green-medium-light);
-    font-weight: 600;
     color: var(--vt-c-white-soft);
   }
 

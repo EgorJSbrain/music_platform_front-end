@@ -44,17 +44,15 @@ router.beforeEach(async (to, from, next) => {
 
   const token = localStorage.getItem(LOCAL_STORAGE_ITEMS.accessToken)
 
-  if (to.meta.isPrivate && !user) {
-    if (token) {
-      const response = await me(token)
+  if (to.meta.isPrivate && !user && token) {
+    const response = await me(token)
 
-      if (response) {
-        next({ name: RouteNames.home })
-      } else {
-        next({ name: RouteNames.login })
-      }
+    if (response) {
+      next({ name: RouteNames.home })
+    } else {
+      next({ name: RouteNames.login })
     }
-  } else if (!to.meta.isPrivate && token) {
+  } else if (!to.meta.isPrivate && token && user) {
     next({ name: RouteNames.home })
   }
 
