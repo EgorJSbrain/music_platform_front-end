@@ -1,7 +1,8 @@
 <template>
   <nav :class="{'opened': isOpen, 'closed': !isOpen }">
       <div v-for="item in menuItems" :key="item.id">
-        <i>{{ getIconComponent(item.icon) }}</i> {{ item.label }}
+        <AppMenuItem :icon="item.icon" :label="item.label" :isOpen="isOpen" :href="item.path" />
+        <!-- <component :is="item.icon()" /> {{ item.label }} -->
       </div>
   </nav>
 </template>
@@ -10,6 +11,8 @@
 import IconHome from '@/components/icons/IconHome.vue';
 import IconHomeLight from '@/components/icons/IconHomeLight.vue';
 import { defineComponent } from 'vue';
+import AppMenuItem from './AppMenuItem.vue';
+import { ROUTES } from '@/constants/global';
 defineComponent({
   IconHome
 })
@@ -19,29 +22,16 @@ defineProps<{
 
 const enum MenuItems {
   home = 'Home',
-  settings = 'Swttings',
+  settings = 'Settings',
   albums = 'Albums',
   details = 'Details',
 }
 const menuItems = [
-  { id: 1, label: MenuItems.home, icon: 'home', aciveIcon: 'home_light',  },
-  // { id: 2, label: MenuItems.albums, icon: , aciveIcon: ,  },
+  { id: 1, label: MenuItems.home, path: ROUTES.home, icon: () => IconHome, aciveIcon: () => IconHomeLight  },
+  { id: 2, label: MenuItems.albums, path: ROUTES.login, icon: () => IconHome, aciveIcon: () => IconHomeLight  },
   // { id: 3, label: MenuItems.details, icon:, aciveIcon: ,  },
   // { id: 4, label: MenuItems.settings, icon:, aciveIcon: ,  },
 ]
-
-const getIconComponent = (iconName: string) => {
-  switch (iconName) {
-    case 'home':
-      return 'IconHome';
-    case 'home-light':
-      return 'HeartIcon';
-    case 'star':
-      return 'StarIcon';
-    default:
-      return null;
-  }
-}
 
 </script>
 
@@ -55,7 +45,7 @@ const getIconComponent = (iconName: string) => {
   }
 
   nav.opened {
-    width: 256px;
+    width: 320px;
   }
   nav.closed {
     width: 80px;
