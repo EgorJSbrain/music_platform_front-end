@@ -1,9 +1,9 @@
 <template>
   <div class="layout">
-    <AppHeaderVue />
+    <AppHeader :toggleMenu="toggleMenu" />
 
     <div class="content-wrapper">
-      <AppSidebar />
+      <AppSidebar :isOpen="isOpen" />
 
       <main class="content">
         <h1>{{ title }}</h1>
@@ -14,13 +14,19 @@
 </template>
 
 <script setup lang="ts">
-import AppHeaderVue from '@/components/AppHeader.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
-
+import { ref } from 'vue'
 
 defineProps<{
   title: string
 }>()
+
+const isOpen = ref(false)
+
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value
+}
 </script>
 
 <style scoped>

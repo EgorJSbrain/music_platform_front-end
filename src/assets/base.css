@@ -5,8 +5,6 @@
   --vt-c-white-mute: #f2f2f2;
   --vt-c-white-back: #F3F4EF;
 
-  --vt-c-cover: #f3f4ef;
-
   --vt-c-black: #181818;
   --vt-c-black-soft: #222222;
   --vt-c-black-mute: #282828;
@@ -17,6 +15,10 @@
   --vt-c-green: #47A267;
   --vt-c-green-medium-light: #298750;
   --vt-c-green-light: #7EDA99;
+  --vt-c-green-light-opacity: #7eda9a7a;
+  --vt-c-green-gray: #D2E8D3;
+
+  --vt-c-gray: #E7E9E4;
 
   --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
   --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
@@ -31,7 +33,7 @@
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-cover);
+  --color-background: var(--vt-c-white-back);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
 

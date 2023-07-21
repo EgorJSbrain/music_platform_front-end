@@ -8,7 +8,7 @@ import { LOCAL_STORAGE_ITEMS } from '@/constants/global';
 import { ROUTES, RouteNames } from '@/constants/global'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: ROUTES.home,
@@ -31,6 +31,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
+      meta: { isPrivate: true },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -44,17 +45,15 @@ router.beforeEach(async (to, from, next) => {
 
   const token = localStorage.getItem(LOCAL_STORAGE_ITEMS.accessToken)
 
-  if (to.meta.isPrivate && !user) {
-    if (token) {
-      const response = await me(token)
+  if (to.meta.isPrivate && !user && token) {
+    const response = await me(token)
 
-      if (response) {
-        next({ name: RouteNames.home })
-      } else {
-        next({ name: RouteNames.login })
-      }
+    if (response) {
+      next({ name: RouteNames.home })
+    } else {
+      next({ name: RouteNames.login })
     }
-  } else if (!to.meta.isPrivate && token) {
+  } else if (!to.meta.isPrivate && token && user) {
     next({ name: RouteNames.home })
   }
 
