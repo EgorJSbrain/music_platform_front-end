@@ -6,7 +6,7 @@
       <AppSidebar :isOpen="isOpen" />
 
       <main class="content">
-        <h1>{{ title }}</h1>
+        <h1>{{ router.currentRoute.value.meta.pageTitle }}</h1>
         <slot name="content"></slot>
       </main>
     </div>
@@ -14,12 +14,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import router from '@/router';
 import AppHeader from '@/components/AppHeader.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
-import { ref } from 'vue'
 
 defineProps<{
-  title: string
+  title?: string
 }>()
 
 const isOpen = ref(false)
@@ -33,7 +34,6 @@ const toggleMenu = () => {
 .layout {
   width: 100%;
   height: 100vh;
-  /* display: flex; */
 }
 
 .content-wrapper {
@@ -42,6 +42,7 @@ const toggleMenu = () => {
 }
 
 .content {
+  padding: 20px;
   width: 100%;
   border-radius: 24px;
   background-color: var(--vt-c-white-soft);

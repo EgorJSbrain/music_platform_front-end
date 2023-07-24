@@ -1,15 +1,17 @@
 export const ROUTES = {
-  home: '/',
+  root: '/',
+  home: '/home',
   login: '/login',
   registration: '/registration',
   settings: '/settings',
 }
 
 export enum RouteNames {
+  root = 'root',
   home = 'home',
-  login = 'login',
-  about = 'about',
   registration = 'registration',
+  login = 'login',
+  settings = 'settings',
 }
 
 export const LOCAL_STORAGE_ITEMS = {

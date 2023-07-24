@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import PrivateLayout from '@/components/layouts/PrivateLayout.vue';
-import TheWelcome from '../components/TheWelcome.vue'
+  import PrivateLayout from '@/components/layouts/PrivateLayout.vue';
 </script>
 
 <template>
