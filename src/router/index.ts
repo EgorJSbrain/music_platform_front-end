@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LogInView from '@/views/LogInView.vue'
 import RegistrationView from '@/views/RegistrationView.vue'
+import SettingsView from '@/views/SettingsView.vue'
+import PrivateLayout from '@/components/layouts/PrivateLayout.vue'
 
 import { useAuthStore } from '@/stores/auth';
 import { LOCAL_STORAGE_ITEMS } from '@/constants/global';
@@ -10,12 +12,6 @@ import { ROUTES, RouteNames } from '@/constants/global'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {
-      path: ROUTES.home,
-      name: RouteNames.home,
-      component: HomeView,
-      meta: { isPrivate: true }
-    },
     {
       path: ROUTES.login,
       name: RouteNames.login,
@@ -29,14 +25,25 @@ const router = createRouter({
       meta: { isPrivate: false }
     },
     {
-      path: '/about',
-      name: 'about',
+      path: ROUTES.root,
+      name: RouteNames.root,
+      component: PrivateLayout,
       meta: { isPrivate: true },
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      children: [
+        {
+          path: ROUTES.home,
+          name: RouteNames.home,
+          component: HomeView,
+          meta: { pageTitle: 'Home page' },
+        },
+        {
+          path: ROUTES.settings,
+          name: RouteNames.settings,
+          component: () =>  import('../views/SettingsView.vue'),
+          meta: { pageTitle: 'Settings page' },
+        }
+      ]
+    },
   ]
 })
 
