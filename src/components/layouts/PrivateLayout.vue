@@ -7,7 +7,7 @@
 
       <main class="content">
         <h1>{{ router.currentRoute.value.meta.pageTitle }}</h1>
-        <slot></slot>
+        <router-view />
       </main>
     </div>
   </div>
