@@ -19,6 +19,8 @@ import IconHome from '@/components/icons/IconHome.vue';
 import IconHomeLight from '@/components/icons/IconHomeLight.vue';
 import IconSettings from '@/components/icons/IconSettings.vue';
 import IconSettingsLight from '@/components/icons/IconSettingsLight.vue';
+import IconFolder from '@/components/icons/IconFolder.vue';
+import IconFolderLight from '@/components/icons/IconFolderLight.vue';
 
 import AppMenuItem from './AppMenuItem.vue';
 import { ROUTES } from '@/constants/global';
@@ -33,12 +35,13 @@ defineProps<{
 const enum MenuItems {
   home = 'Home',
   settings = 'Settings',
-  albums = 'Albums',
+  storage = 'My storage',
   details = 'Details',
 }
 const menuItems = [
   { id: 1, label: MenuItems.home, path: ROUTES.home, icon: () => IconHomeLight, activeIcon: () => IconHome },
-  { id: 2, label: MenuItems.settings, path: ROUTES.settings, icon: () => IconSettingsLight, activeIcon: () => IconSettings },
+  { id: 2, label: MenuItems.storage, path: ROUTES.storage, icon: () => IconFolderLight, activeIcon: () => IconFolder },
+  { id: 3, label: MenuItems.settings, path: ROUTES.settings, icon: () => IconSettingsLight, activeIcon: () => IconSettings },
 ]
 
 </script>
