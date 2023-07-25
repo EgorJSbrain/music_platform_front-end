@@ -24,49 +24,31 @@ const router = createRouter({
       meta: { isPrivate: false }
     },
     {
-      path: ROUTES.home,
-      name: RouteNames.home,
-      component: HomeView,
-      meta: { pageTitle: 'Home page' },
+      path: ROUTES.root,
+      name: RouteNames.root,
+      component: PrivateLayout,
+      meta: { isPrivate: true },
+      children: [
+        {
+          path: ROUTES.home,
+          name: RouteNames.home,
+          component: HomeView,
+          meta: { pageTitle: 'Home page' },
+        },
+        {
+          path: ROUTES.storage,
+          name: RouteNames.storage,
+          component: () =>  import('../views/StorageView.vue'),
+          meta: { pageTitle: 'Storage page' },
+        },
+        {
+          path: ROUTES.settings,
+          name: RouteNames.settings,
+          component: () =>  import('../views/SettingsView.vue'),
+          meta: { pageTitle: 'Settings page' },
+        },
+      ]
     },
-    {
-      path: ROUTES.storage,
-      name: RouteNames.storage,
-      component: () =>  import('../views/StorageView.vue'),
-      meta: { pageTitle: 'Storage page' },
-    },
-    {
-      path: ROUTES.settings,
-      name: RouteNames.settings,
-      component: () =>  import('../views/SettingsView.vue'),
-      meta: { pageTitle: 'Settings page' },
-    },
-    // {
-    //   path: ROUTES.root,
-    //   // name: RouteNames.root,
-    //   component: PrivateLayout,
-    //   meta: { isPrivate: true },
-    //   children: [
-    //     {
-    //       path: ROUTES.home,
-    //       name: RouteNames.home,
-    //       component: HomeView,
-    //       meta: { pageTitle: 'Home page' },
-    //     },
-    //     {
-    //       path: ROUTES.storage,
-    //       name: RouteNames.storage,
-    //       component: () =>  import('../views/StorageView.vue'),
-    //       meta: { pageTitle: 'Storage page' },
-    //     },
-    //     {
-    //       path: ROUTES.settings,
-    //       name: RouteNames.settings,
-    //       component: () =>  import('../views/SettingsView.vue'),
-    //       meta: { pageTitle: 'Settings page' },
-    //     },
-    //   ]
-    // },
   ]
 })
 
@@ -78,7 +60,7 @@ router.beforeEach(async (to, from, next) => {
     const response = await me(token)
 
     if (response) {
-      next({ name: RouteNames.home })
+      next()
     } else {
       next({ name: RouteNames.login })
     }
