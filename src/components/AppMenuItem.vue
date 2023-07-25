@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import router from '@/router';
-import { ROUTES, RouteNames } from '@/constants/global'
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -35,6 +34,7 @@ const redirect = async () => {
     border-radius: 28px;
     margin-bottom: 8px;
     cursor: pointer;
+    white-space: pre;
   }
 
   .wrapper:hover {
@@ -54,8 +54,7 @@ const redirect = async () => {
   }
 
   .closed {
-    width: 0px;
-    opacity: 0;
+    display: none;
   }
 
   .icon {
