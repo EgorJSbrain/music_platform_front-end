@@ -1,10 +1,8 @@
 <template>
-  <!-- <PrivateLayout title="Settings" /> -->
-  sett
+  settings
 </template>
 
 <script setup lang="ts">
-  // import PrivateLayout from '@/components/layouts/PrivateLayout.vue';
 </script>
 
 <style>
