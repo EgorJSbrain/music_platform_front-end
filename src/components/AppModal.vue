@@ -5,8 +5,8 @@
       <div class="content">
         <slot></slot>
         <div class="buttons">
-          <Button :click="closeModal" :title="'Close'" />
-          <Button :click="closeModal" :title="'Ok'" />
+          <Button :variant="ButtonVariants.text" :click="closeModal" :title="'Close'" />
+          <Button :variant="ButtonVariants.contained" :click="closeModal" :title="'Ok'" />
         </div>
       </div>
     </div>
@@ -15,6 +15,8 @@
 
 <script setup lang="ts">
 import Button from '@/components/AppButton.vue'
+import { ButtonVariants } from '@/constants/global';
+
 defineProps<{
   isVisible: boolean
   title?: string
@@ -52,6 +54,7 @@ defineProps<{
 
   h1 {
     font-weight: 500;
+    margin-bottom: 20px;
   }
 
   .content {

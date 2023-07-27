@@ -1,12 +1,16 @@
 <template>
-  <button @click="click">{{ title }}</button>
+  <button :class="ButtonVariant[variant]" @click="click">{{ title }}</button>
 </template>
 
 <script setup lang="ts">
+import { ButtonVariant, ButtonVariants } from '@/constants/global';
+
 defineProps<{
   title: string
+  variant: ButtonVariants
   click: () => void
 }>()
+
 </script>
 
 <style scoped>
@@ -17,12 +21,25 @@ defineProps<{
     cursor: pointer;
     font-weight: 600;
     border: none;
+  }
+
+  .contained {
     background-color: var(--vt-c-green-medium-light);
     color: var(--vt-c-white-soft);
   }
 
+  .text {
+    background-color: transparent;
+    color: var(--vt-c-green-medium-light);
+  }
 
-  button:hover {
+  .text:hover {
+    background-color: var(--vt-c-gray-light);
+    color: var(--vt-c-green-medium-light);
+  }
+
+
+  .contained:hover {
       background-color: var(--vt-c-green-light);
       color: var(--vt-c-black);
     }

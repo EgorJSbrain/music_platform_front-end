@@ -19,3 +19,13 @@ export enum RouteNames {
 export const LOCAL_STORAGE_ITEMS = {
   accessToken: 'accessToken',
 }
+
+export const enum ButtonVariants {
+  text = "text",
+  contained = "contained"
+}
+
+export const ButtonVariant = {
+  [ButtonVariants.text]: ButtonVariants.text,
+  [ButtonVariants.contained]: ButtonVariants.contained
+}
