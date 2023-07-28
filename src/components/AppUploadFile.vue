@@ -1,22 +1,27 @@
 <template>
   <div class="input-file">
     <label class="input-label">
-      <IconUpload />
-      {{ title }}
+      <div class="input-interective">
+        <IconUpload />
+        {{ title }}
+      </div>
       <input :accept="accept" hidden type="file" @change="onFileChange" ref="fileInput" />
+      <img v-if="imageLink && type === UploadFileType.image" :src="imageLink ?? ''" alt="logo"/>
     </label>
 
-    <p class="file-name">{{ file?.name }}</p>
+    <p v-if="file?.name" class="file-name">{{ file?.name }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import IconUpload from '@/components/icons/IconUpload.vue';
+import { UploadFileType } from '@/constants/global';
 
 const props = defineProps<{
   title: string
   accept: string
+  type: UploadFileType
   uploadFile: (file: File) => void
 }>()
 
@@ -28,8 +33,6 @@ const imageLink = computed(() => {
     return null
   }
 })
-
-console.log("imageLink:", imageLink.value)
 
 const onFileChange = (event: Event) => {
   const inputElement = event.target as HTMLInputElement;
@@ -49,10 +52,16 @@ const onFileChange = (event: Event) => {
     background-color: var(--vt-c-white-back);
   }
 
-  .input-file:hover {
-    background-color: var(--vt-c-green-gray);
+  .input-file:hover .input-interective {
+    /* background-color: var(--vt-c-green-gray); */
+    background-color: #0e0e0e30;
+  }
+  .input-file:hover img {
+    /* background-color: var(--vt-c-green-gray); */
+    opacity: .6;
   }
   .input-label {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,6 +69,7 @@ const onFileChange = (event: Event) => {
     height: 100%;
     width: 100%;
     cursor: pointer;
+    overflow: hidden;
   }
 
   .input-label svg {
@@ -67,10 +77,30 @@ const onFileChange = (event: Event) => {
     height: 40px;
   }
 
+  img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .input-interective {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+  }
+
   .file-name {
     padding: 8px 12px;
     font-weight: 600;
     max-width: 220px;
+    white-space: pre;
     overflow: hidden;
     text-overflow: ellipsis;
   }

@@ -29,3 +29,8 @@ export const ButtonVariant = {
   [ButtonVariants.text]: ButtonVariants.text,
   [ButtonVariants.contained]: ButtonVariants.contained
 }
+
+export const enum UploadFileType {
+  image = "image",
+  audio = "audio"
+}
