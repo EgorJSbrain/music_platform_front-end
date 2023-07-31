@@ -1,51 +1,87 @@
 <template>
-  <Modal title="Add track" :closeModal="toggleModalVisible" :is-visible="isModalVisible">
+  <Modal
+    title="Add track"
+    :apply="handleApply"
+    :cancel="handleClose"
+    :is-visible="isModalVisible"
+    :height="'652px'"
+  >
     <div class="content">
       <div class="upload-wrapper">
         <UploadFile :type="UploadFileType.image" accept="image/*" :uploadFile="uploadImage" title="Upload image" />
         <UploadFile :type="UploadFileType.audio" accept="audio/*" :uploadFile="uploadTrack" title="Upload track"/>
       </div>
-      <Input placeholder="Track name" />
-      <Input placeholder="Author" />
-      <textarea placeholder="12" />
+      <Input v-model="form.name" placeholder="Name of track " />
+      <Input v-model="form.artist" placeholder="Author of Track" />
+      <Textarea v-model="form.text" placeholder="Text of track" />
     </div>
   </Modal>
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue';
+
+  import { UploadFileType } from '@/constants/global';
+
+  import { trackCreate } from '@/services/requests'
+
   import Modal from '@/components/AppModal.vue'
   import Input from '@/components/AppInput.vue'
-  import { ButtonVariants, UploadFileType } from '@/constants/global';
+  import Textarea from '@/components/AppTextarea.vue'
   import UploadFile from '@/components/AppUploadFile.vue';
 
-const props = defineProps<{
-  title?: string
-  isModalVisible: boolean
-  toggleModalVisible: () => void
-}>()
+  const props = defineProps<{
+    title?: string
+    isModalVisible: boolean
+    toggleModalVisible: () => void
+  }>()
 
-const uploadImage = (file: File) => {
-  console.log("🚀 ~ file: StorageView.vue:28 ~ uploadImage ~ file:", file)
-}
+  const imageFile = ref<File | null>(null)
+  const audioFile = ref<File | null>(null)
 
-const uploadTrack = (file: File) => {
-  console.log("🚀 ~ file: StorageView.vue:28 ~ uploadImage ~ track:", file)
-}
+  const form = ref({
+    name: '',
+    artist: '',
+    text: '',
+  })
 
-const handleApply = () => {
-  props.toggleModalVisible()
-}
+  const uploadImage = (file: File) => {
+    imageFile.value = file
+  }
 
-const handleClose = () => {
-  props.toggleModalVisible()
-}
+  const uploadTrack = (file: File) => {
+    audioFile.value = file
+  }
 
+  const handleApply = async () => {
+    const formData = new FormData()
+
+    if (imageFile.value && audioFile.value) {
+      formData.append('picture', imageFile.value)
+      formData.append('audio', audioFile.value)
+
+      formData.append('name', form.value.name)
+      formData.append('artist', form.value.artist)
+      formData.append('text', form.value.text)
+    }
+
+    const response = await trackCreate(formData)
+
+    if (response) {
+      props.toggleModalVisible()
+    }
+  }
+
+  const handleClose = () => {
+    props.toggleModalVisible()
+  }
 </script>
 
 <style scoped>
 .upload-wrapper {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 32px;
 }
 
 .content {

@@ -8,7 +8,7 @@ import { ButtonVariant, ButtonVariants } from '@/constants/global';
 defineProps<{
   title: string
   variant: ButtonVariants
-  click: () => void
+  click?: () => void
 }>()
 
 </script>

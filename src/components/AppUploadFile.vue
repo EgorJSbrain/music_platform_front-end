@@ -53,11 +53,9 @@ const onFileChange = (event: Event) => {
   }
 
   .input-file:hover .input-interective {
-    /* background-color: var(--vt-c-green-gray); */
     background-color: #0e0e0e30;
   }
   .input-file:hover img {
-    /* background-color: var(--vt-c-green-gray); */
     opacity: .6;
   }
   .input-label {
@@ -81,7 +79,8 @@ const onFileChange = (event: Event) => {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 12px;
   }
 
   .input-interective {
