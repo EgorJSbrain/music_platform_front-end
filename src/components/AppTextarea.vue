@@ -1,6 +1,5 @@
 <template>
-  <input
-    type="text"
+  <textarea
     v-model="value"
   />
 </template>
@@ -22,12 +21,17 @@ const value = computed({
 </script>
 
 <style scoped>
-  input {
+  textarea {
     width: 100%;
+    max-width: 472px;
+    min-width: 472px;
+    max-height: 76px;
+    min-height: 76px;
     border-radius: 6px;
     font-size: 18px;
     padding: 12px 8px;
     border: 1px solid var(--vt-c-green-medium-light);
+    font-family: Arial;
   }
   :focus {
     outline: none !important;

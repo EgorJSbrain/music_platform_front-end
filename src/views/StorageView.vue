@@ -12,11 +12,12 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
+
+  import { ButtonVariants } from '@/constants/global';
+
   import Button from '@/components/AppButton.vue'
   import IconMenu from '@/components/icons/IconMenu.vue';
   import TrackModal from '@/components/modals/AppTrackModal.vue'
-  import { ButtonVariants, UploadFileType } from '@/constants/global';
-  import AppUploadFile from '@/components/AppUploadFile.vue';
 
   const isModalVisible = ref(false)
 

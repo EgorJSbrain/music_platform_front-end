@@ -1,12 +1,12 @@
 <template>
   <div v-if="isVisible" class="modal-wrapper" :class="{ closed: !isVisible }">
-    <div class="modal">
+    <div class="modal" :style="{ height }">
       <h1>{{ title }}</h1>
       <div class="content">
         <slot></slot>
         <div class="buttons">
-          <Button :variant="ButtonVariants.text" :click="closeModal" :title="'Close'" />
-          <Button :variant="ButtonVariants.contained" :click="closeModal" :title="'Ok'" />
+          <Button :variant="ButtonVariants.text" :click="cancel" :title="'Close'" />
+          <Button :variant="ButtonVariants.contained" :click="apply" :title="'Ok'" />
         </div>
       </div>
     </div>
@@ -19,8 +19,10 @@ import { ButtonVariants } from '@/constants/global';
 
 defineProps<{
   isVisible: boolean
+  height: string
   title?: string
-  closeModal: () => void
+  apply: () => void
+  cancel: () => void
 }>()
 </script>
 
@@ -44,7 +46,6 @@ defineProps<{
 
   .modal {
     width: 520px;
-    height: 590px;
     background-color: var(--vt-c-gray);
     border-radius: 12px;
     display: flex;
