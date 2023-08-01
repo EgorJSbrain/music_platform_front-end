@@ -23,7 +23,8 @@
 
   import { UploadFileType } from '@/constants/global';
 
-  import { trackCreate } from '@/services/requests'
+  import { createTrack } from '@/services/requests'
+  import { useAuthStore } from '@/stores/auth';
 
   import Modal from '@/components/AppModal.vue'
   import Input from '@/components/AppInput.vue'
@@ -35,6 +36,8 @@
     isModalVisible: boolean
     toggleModalVisible: () => void
   }>()
+
+  const { user } = useAuthStore()
 
   const imageFile = ref<File | null>(null)
   const audioFile = ref<File | null>(null)
@@ -56,16 +59,17 @@
   const handleApply = async () => {
     const formData = new FormData()
 
-    if (imageFile.value && audioFile.value) {
+    if (imageFile.value && audioFile.value && user) {
       formData.append('picture', imageFile.value)
       formData.append('audio', audioFile.value)
 
       formData.append('name', form.value.name)
       formData.append('artist', form.value.artist)
       formData.append('text', form.value.text)
+      formData.append('userId', user._id)
     }
 
-    const response = await trackCreate(formData)
+    const response = await createTrack(formData)
 
     if (response) {
       props.toggleModalVisible()

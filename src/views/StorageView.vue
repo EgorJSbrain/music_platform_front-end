@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
 
   import { ButtonVariants } from '@/constants/global';
-
+  import { useTracksStore } from '@/stores/tracks'
   import Button from '@/components/AppButton.vue'
   import IconMenu from '@/components/icons/IconMenu.vue';
   import TrackModal from '@/components/modals/AppTrackModal.vue'
@@ -24,6 +24,12 @@
   const toggleModalVisible = () => {
     isModalVisible.value = !isModalVisible.value
   }
+
+  const { getMyTracksByUserId } = useTracksStore()
+
+  onMounted(async () => {
+    const tracks = await getMyTracksByUserId()
+  })
 
 </script>
 

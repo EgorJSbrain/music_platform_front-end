@@ -6,3 +6,9 @@ export const create = async (data: FormData) => {
 
   return response.data
 }
+
+export const getAllByUserId = async (userId: string) => {
+  const response = await apiClient.get<ITrack[]>(`/tracks/by-user/${userId}`)
+
+  return response.data
+}
