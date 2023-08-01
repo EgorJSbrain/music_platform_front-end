@@ -1,12 +1,20 @@
-import { create } from "../api"
+import { create, getAllByUserId } from "../api"
 
-export const trackCreate = async (data: FormData) => {
+export const createTrack = async (data: FormData) => {
   try {
-    console.log("------data:", data)
     const track = await create(data)
-    console.log("------track:", track)
 
     return track
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const getTracksByUserId = async (userId: string) => {
+  try {
+    const tracks = await getAllByUserId(userId)
+
+    return tracks
   } catch (e) {
     console.log(e)
   }
