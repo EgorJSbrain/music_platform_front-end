@@ -2,7 +2,11 @@
   <div class="panel"><Button :variant="ButtonVariants.contained" title="Add track" :click="toggleModalVisible">
       <IconMenu />
     </Button></div>
-  <div>!!!</div>
+  <div>
+    <div v-for="item in tracks.myTracks" :key="item._id">
+      <TrackItem :track="item" />
+    </div>
+  </div>
 
   <TrackModal
     :toggleModalVisible="toggleModalVisible"
@@ -15,20 +19,21 @@
 
   import { ButtonVariants } from '@/constants/global';
   import { useTracksStore } from '@/stores/tracks'
+
   import Button from '@/components/AppButton.vue'
   import IconMenu from '@/components/icons/IconMenu.vue';
   import TrackModal from '@/components/modals/AppTrackModal.vue'
+  import TrackItem from '@/components/AppTrackItem.vue'
 
   const isModalVisible = ref(false)
+  const tracks = useTracksStore()
 
   const toggleModalVisible = () => {
     isModalVisible.value = !isModalVisible.value
   }
 
-  const { getMyTracksByUserId } = useTracksStore()
-
-  onMounted(async () => {
-    const tracks = await getMyTracksByUserId()
+  onMounted(() => {
+    tracks.getMyTracksByUserId()
   })
 
 </script>
