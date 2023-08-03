@@ -1,12 +1,16 @@
 <template>
-  <div class="panel"><Button :variant="ButtonVariants.contained" title="Add track" :click="toggleModalVisible">
+  <div class="panel">
+    <Button
+      :variant="ButtonVariants.contained"
+      title="Add track"
+      :click="toggleModalVisible"
+    >
       <IconMenu />
     </Button></div>
-  <div>
-    <div v-for="item in tracks.myTracks" :key="item._id">
-      <TrackItem :track="item" />
+
+    <div class="tracks-list">
+      <TrackItem v-for="item in tracks.myTracks" :key="item._id" :track="item" />
     </div>
-  </div>
 
   <TrackModal
     :toggleModalVisible="toggleModalVisible"
@@ -42,5 +46,13 @@
   .panel {
     display: flex;
     justify-content: end;
+    margin-bottom: 24px;
+  }
+
+  .tracks-list {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 800px;
   }
 </style>
