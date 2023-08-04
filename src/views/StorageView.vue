@@ -9,7 +9,12 @@
     </Button></div>
 
     <div class="tracks-list">
-      <TrackItem v-for="item in tracks.myTracks" :key="item._id" :track="item" />
+      <TrackItem
+        v-for="item in tracks.myTracks"
+        :key="item._id"
+        :track="item"
+        :setCurrentTrack="setCurrentTrack"
+      />
     </div>
 
   <TrackModal
@@ -28,12 +33,17 @@
   import IconMenu from '@/components/icons/IconMenu.vue';
   import TrackModal from '@/components/modals/AppTrackModal.vue'
   import TrackItem from '@/components/AppTrackItem.vue'
+  import type { ITrack } from '@/types/track';
 
   const isModalVisible = ref(false)
   const tracks = useTracksStore()
 
   const toggleModalVisible = () => {
     isModalVisible.value = !isModalVisible.value
+  }
+
+  const setCurrentTrack = (track: ITrack) => {
+    tracks.setCurrentTrack(track)
   }
 
   onMounted(() => {

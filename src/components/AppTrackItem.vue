@@ -17,10 +17,11 @@ import type { ITrack } from '@/types/track';
 
 const props = defineProps<{
   track: ITrack
+  setCurrentTrack: (track: ITrack) => void
 }>()
 
 const handleTrackPlay = () => {
-  console.log('---', props.track)
+  props.setCurrentTrack(props.track)
 }
 
 </script>
