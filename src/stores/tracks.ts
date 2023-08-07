@@ -8,7 +8,6 @@ import type { ITrack } from '@/types/track'
 export const useTracksStore = defineStore('tracks', () => {
   const { user } = useAuthStore()
   const myTracks = ref<ITrack[]>([])
-  const currentTrack = ref<any | null>(null)
 
   const getMyTracksByUserId = async () => {
     if (user) {
@@ -20,9 +19,5 @@ export const useTracksStore = defineStore('tracks', () => {
     }
   }
 
-  const setCurrentTrack = (track: ITrack) => {
-    currentTrack.value = track
-  }
-
-  return { myTracks, currentTrack, getMyTracksByUserId, setCurrentTrack }
+  return { myTracks, getMyTracksByUserId }
 })

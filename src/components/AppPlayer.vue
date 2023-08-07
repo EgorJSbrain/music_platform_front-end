@@ -1,40 +1,40 @@
 <template>
-  <div v-if="tracks.currentTrack" >
-    {{ tracks.currentTrack?.name }}
+  <div class="player" v-if="player.currentTrack">
+    <div class="tarck-name">{{ player.currentTrack?.name }}</div>
     <input type="range">
-    <audio ref="audio" autoplay :src="`${url}/${tracks.currentTrack?.audio}`" v-on:play="true" />
-  </div>
-</template>
+    <audio ref="audio" autoplay :src="`${url}/${player.currentTrack?.audio}`" v-on:play="true" />
+
+    <IconButton class="play-button" :click="togglePlayTrack">
+      <IconPlay v-if="!player.isPlayed" />
+      <IconPause v-if="player.isPlayed" />
+    </IconButton>
+</div></template>
 
 <script setup lang="ts">
-  import { useTracksStore } from '@/stores/tracks'
-import type { ITrack } from '@/types/track';
-import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+  import { usePlayerStore } from '@/stores/player'
+  import IconButton from '@/components/AppIconButton.vue';
+  import IconPlay from '@/components/icons/IconPlay.vue';
+  import IconPause from '@/components/icons/IconPause.vue';
+  import { computed, onMounted, ref, watch } from 'vue';
 
   const url = ref(import.meta.env.VITE_BASE_URL)
   const audio = ref<HTMLAudioElement | null>(null)
-  // console.log("🚀 ~ file: AppPlayer.vue:13 ~ audio:", audio)
 
-  const tracks = useTracksStore()
+  const player = usePlayerStore()
 
-  const currentTrack = computed<ITrack | null>(() => tracks.currentTrack);
+  const isPlayed = computed<boolean>(() => player.isPlayed);
 
-  watch(currentTrack, () => {
-    if (currentTrack.value) {
-      // const audio = new Audio(currentTrack.value.audio)
-      // audio.play()
-      // console.log('!!!', currentTrack.value)
-      // console.log('---audio---',  audio.value)
-      // audio.value?.play().catch((e) => console.log(e))
+  watch(isPlayed, () => {
+    if (isPlayed.value) {
+      audio.value?.play()
+    } else {
+      audio.value?.pause()
     }
   })
 
-  // watchEffect(async () => {
-  //   if (currentTrack.value && audio.value) {
-  //     const qwe = await audio.value?.play()
-  //     console.log('-qwe--', qwe)
-  //   }
-  // })
+  const togglePlayTrack = () => {
+    player.togglePlaying()
+  }
 
   onMounted(() => {
     audio.value?.play()
@@ -42,5 +42,23 @@ import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 </script>
 
 <style scoped>
+  .player {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    border-radius: 20px;
+  }
 
+  .tarck-name {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+  }
+
+  .play-button svg {
+    width: 16px;
+    height: 16px;
+  }
 </style>

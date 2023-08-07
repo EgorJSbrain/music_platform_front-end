@@ -28,6 +28,7 @@
 
   import { ButtonVariants } from '@/constants/global';
   import { useTracksStore } from '@/stores/tracks'
+  import { usePlayerStore } from '@/stores/player'
 
   import Button from '@/components/AppButton.vue'
   import IconMenu from '@/components/icons/IconMenu.vue';
@@ -37,13 +38,14 @@
 
   const isModalVisible = ref(false)
   const tracks = useTracksStore()
+  const player = usePlayerStore()
 
   const toggleModalVisible = () => {
     isModalVisible.value = !isModalVisible.value
   }
 
   const setCurrentTrack = (track: ITrack) => {
-    tracks.setCurrentTrack(track)
+    player.setCurrentTrack(track)
   }
 
   onMounted(() => {
