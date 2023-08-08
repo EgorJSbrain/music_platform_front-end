@@ -22,6 +22,7 @@ defineProps<{
 <style scoped>
   header {
     display: flex;
+    align-items: center;
     padding: 8px 16px;
     background-color: var(--vt-c-white-back);
   }

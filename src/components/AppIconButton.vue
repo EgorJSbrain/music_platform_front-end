@@ -13,6 +13,8 @@ defineProps<{
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 42px;
+    width: 42px;
     padding: 8px 9px;
     background-color: transparent;
     cursor: pointer;
