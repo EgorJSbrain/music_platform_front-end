@@ -6,7 +6,6 @@ import type { ITrack } from '@/types/track'
 export const usePlayerStore = defineStore('player', () => {
   const currentTrack = ref<ITrack | null>(null)
   const isPlayed = ref<boolean>(false)
-  console.log("isPlayed:", isPlayed)
 
   const setCurrentTrack = (track: ITrack) => {
     currentTrack.value = track

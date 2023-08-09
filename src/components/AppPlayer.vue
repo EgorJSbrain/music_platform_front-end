@@ -1,33 +1,33 @@
 <template>
   <div class="player" v-if="player.currentTrack">
-    <!-- <div class="info"> -->
-      <div class="treck-name">{{ player.currentTrack?.name }}</div>
-      <input ref="audio" v-model="inputValue" type="range">
-      <p>{{ dayjs(new Date(inputValue * 1000)).format('mm:ss') }} / {{ dayjs(new Date(duration * 1000)).format('mm:ss') }}</p>
-      <p>Value: {{ inputValue }}</p>
-    <!-- </div> -->
-    <audio
-      :onloadedmetadata="handleOnLoadMetadata"
-      :timeupdate="handleTimeChange"
-      v-on:timeupdate="handleTimeChange"
-      ref="audio"
-      autoplay
-      :min="0"
-      :max="duration"
-      :src="`${url}/${player.currentTrack?.audio}`"
-    />
+    <div class="info-panel">
+      <div class="info">
+        <div class="treck-name">{{ player.currentTrack?.name }}</div>
+
+        <div class="treck-time">
+          <p>{{ formatSecondsToTime(inputValue) }}</p>
+            /
+          <p>{{ formatSecondsToTime(duration) }}</p>
+        </div>
+      </div>
+
+      <input class="custom-range" ref="audio" v-model="inputValue" @input="handleSetToTime" type="range" :min="0" :max="duration">
+  </div>
+    <audio :onloadedmetadata="handleOnLoadMetadata" v-on:timeupdate="handleTimeChange"
+      ref="audio" autoplay :min="0" :max="duration" :src="`${url}/${player.currentTrack?.audio}`" />
 
     <IconButton class="play-button" :click="togglePlayTreck">
       <IconPlay v-if="!player.isPlayed" />
       <IconPause v-if="player.isPlayed" />
     </IconButton>
-</div></template>
+  </div>
+</template>
 
 <script setup lang="ts">
   import { computed, ref, watch } from 'vue';
 
   import { usePlayerStore } from '@/stores/player'
-  import dayjs from 'dayjs'
+  import { formatSecondsToTime } from '@/utils/formatTime'
 
   import IconButton from '@/components/AppIconButton.vue';
   import IconPlay from '@/components/icons/IconPlay.vue';
@@ -47,7 +47,6 @@
       audio.value?.play()
     } else {
       audio.value?.pause()
-      console.log('---', audio.value?.currentTime)
     }
   })
 
@@ -55,16 +54,22 @@
     player.togglePlaying()
   }
 
-  const handleTimeChange = (payload: Event) => {
-    // debugger
-    const audioEl = payload.target as HTMLAudioElement
-    // console.log('---', audioEl.currentTime)
+  const handleTimeChange = (e: Event) => {
+    const audioEl = e.target as HTMLAudioElement
     inputValue.value = Math.floor(audioEl.currentTime)
   }
 
-  const handleOnLoadMetadata = (payload: Event) => {
-    const audioEl = payload.target as HTMLAudioElement
+  const handleOnLoadMetadata = (e: Event) => {
+    const audioEl = e.target as HTMLAudioElement
     duration.value = audioEl.duration
+  }
+
+  const handleSetToTime = (e: Event) => {
+    const input = e.target as HTMLInputElement
+    const time =  Number(input.value)
+
+    audio.value!.currentTime = time ?? 0
+    inputValue.value = time
   }
 </script>
 
@@ -77,21 +82,68 @@
     border-radius: 20px;
   }
 
-  .info {
+  .info-panel {
     display: flex;
     flex-direction: column;
-    max-width: 132px;
-    width: 132px;
+    max-width: 320px;
+    width: 320px;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    max-width: 320px;
+    width: 320px;
+    margin-bottom: 6px;
   }
 
   .treck-name {
-    /* max-width: 132px; */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
+    margin-right: 12px;
+    max-width: 200px;
+  }
+
+  .treck-time {
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  .treck-time > p {
     font-size: 14px;
     font-weight: 500;
-    margin-bottom: 6px;
+  }
+
+  .custom-range {
+    width: 100%; /* Adjust the width as needed */
+    height: 10px; /* Adjust the height as needed */
+    appearance: none;
+    background-color: #ddd;
+    border-radius: 5px;
+    outline: none;
+    margin: 0;
+    padding: 0;
+
+    /* Customize the track and thumb styles */
+    --track-color: #3498db;
+    --thumb-color: #fff;
+
+    /* Track styles */
+    background: var(--track-color);
+    border: none;
+    height: 100%;
+    border-radius: 5px;
+
+    /* Thumb styles */
+    height: 12px; /* Adjust the thumb size as needed */
+    background: var(--thumb-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
   }
 
   .play-button svg {

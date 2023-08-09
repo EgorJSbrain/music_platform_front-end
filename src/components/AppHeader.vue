@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="player.currentTrack ? 'small-paddings' : 'normal-paddings'">
     <AppIconButton :click="toggleMenu">
       <IconMenu />
     </AppIconButton>
@@ -9,9 +9,13 @@
 </template>
 
 <script setup lang="ts">
+import { usePlayerStore } from '@/stores/player'
+
 import IconMenu from '@/components/icons/IconMenu.vue';
 import Player from '@/components/AppPlayer.vue';
 import AppIconButton from './AppIconButton.vue';
+
+const player = usePlayerStore()
 
 defineProps<{
   title?: string
@@ -23,7 +27,14 @@ defineProps<{
   header {
     display: flex;
     align-items: center;
-    padding: 8px 16px;
+    justify-content: space-between;
     background-color: var(--vt-c-white-back);
+  }
+
+  header.small-paddings {
+    padding: 8px 16px;
+  }
+  header.normal-paddings {
+    padding: 18px 16px;
   }
 </style>
