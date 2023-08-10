@@ -4,7 +4,10 @@
       <Avatar :path="track.picture"/>
       <div class="track-name">{{ track.name }}</div>
     </div>
-    <IconButton :click="handleTrackPlay"><IconPlay /></IconButton>
+    <IconButton :click="handleTrackPlay">
+      <IconPlay v-if="!isPlayed" />
+      <IconPause v-if="isPlayed" />
+    </IconButton>
   </div>
 </template>
 
@@ -17,6 +20,7 @@ import type { ITrack } from '@/types/track';
 
 const props = defineProps<{
   track: ITrack
+  isPlayed: boolean
   setCurrentTrack: (track: ITrack) => void
 }>()
 

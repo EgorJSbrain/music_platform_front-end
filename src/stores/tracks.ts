@@ -9,7 +9,7 @@ export const useTracksStore = defineStore('tracks', () => {
   const { user } = useAuthStore()
   const myTracks = ref<ITrack[]>([])
 
-  const getMyTracksByUserId = async () => {
+  const getMyTracks = async () => {
     if (user) {
       const tracks = await getTracksByUserId(user._id)
 
@@ -19,5 +19,5 @@ export const useTracksStore = defineStore('tracks', () => {
     }
   }
 
-  return { myTracks, getMyTracksByUserId }
+  return { myTracks, getMyTracks }
 })

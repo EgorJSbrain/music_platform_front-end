@@ -25,6 +25,7 @@
 
   import { createTrack } from '@/services/requests'
   import { useAuthStore } from '@/stores/auth';
+  import { useTracksStore } from '@/stores/tracks';
 
   import Modal from '@/components/AppModal.vue'
   import Input from '@/components/AppInput.vue'
@@ -38,6 +39,7 @@
   }>()
 
   const { user } = useAuthStore()
+  const tracks = useTracksStore()
 
   const imageFile = ref<File | null>(null)
   const audioFile = ref<File | null>(null)
@@ -73,6 +75,7 @@
 
     if (response) {
       props.toggleModalVisible()
+      tracks.getMyTracks()
     }
   }
 
