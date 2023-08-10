@@ -11,10 +11,18 @@
         </div>
       </div>
 
-      <input class="custom-range" ref="audio" v-model="inputValue" @input="handleSetToTime" type="range" :min="0" :max="duration">
+      <input ref="audio" v-model="inputValue" @input="handleSetToTime" type="range" :min="0" :max="duration">
   </div>
-    <audio :onloadedmetadata="handleOnLoadMetadata" v-on:timeupdate="handleTimeChange"
-      ref="audio" autoplay :min="0" :max="duration" :src="`${url}/${player.currentTrack?.audio}`" />
+    <audio
+      :volume="0.1"
+      ref="audio"
+      autoplay
+      :min="0"
+      :max="duration"
+      :src="`${url}/${player.currentTrack?.audio}`"
+      :onloadedmetadata="handleOnLoadMetadata"
+      v-on:timeupdate="handleTimeChange"
+    />
 
     <IconButton class="play-button" :click="togglePlayTreck">
       <IconPlay v-if="!player.isPlayed" />
@@ -33,13 +41,12 @@
   import IconPlay from '@/components/icons/IconPlay.vue';
   import IconPause from '@/components/icons/IconPause.vue';
 
+  const player = usePlayerStore()
+
   const url = ref(import.meta.env.VITE_BASE_URL)
   const audio = ref<HTMLAudioElement | null>(null)
   const inputValue = ref<number>(0)
   const duration = ref<number>(0)
-
-  const player = usePlayerStore()
-
   const isPlayed = computed<boolean>(() => player.isPlayed);
 
   watch(isPlayed, () => {
@@ -56,7 +63,13 @@
 
   const handleTimeChange = (e: Event) => {
     const audioEl = e.target as HTMLAudioElement
-    inputValue.value = Math.floor(audioEl.currentTime)
+    const currentTime = Math.floor(audioEl.currentTime)
+    inputValue.value = currentTime
+
+    if (currentTime >= Math.floor(duration.value)) {
+      player.togglePlaying()
+      audio.value!.currentTime = 0
+    }
   }
 
   const handleOnLoadMetadata = (e: Event) => {
@@ -116,34 +129,6 @@
   .treck-time > p {
     font-size: 14px;
     font-weight: 500;
-  }
-
-  .custom-range {
-    width: 100%; /* Adjust the width as needed */
-    height: 10px; /* Adjust the height as needed */
-    appearance: none;
-    background-color: #ddd;
-    border-radius: 5px;
-    outline: none;
-    margin: 0;
-    padding: 0;
-
-    /* Customize the track and thumb styles */
-    --track-color: #3498db;
-    --thumb-color: #fff;
-
-    /* Track styles */
-    background: var(--track-color);
-    border: none;
-    height: 100%;
-    border-radius: 5px;
-
-    /* Thumb styles */
-    height: 12px; /* Adjust the thumb size as needed */
-    background: var(--thumb-color);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
   }
 
   .play-button svg {

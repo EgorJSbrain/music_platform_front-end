@@ -3,21 +3,19 @@
 </template>
 
 <script setup lang="ts">
-import IconMenu from '@/components/icons/IconMenu.vue';
-import AppIconButton from './AppIconButton.vue';
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-defineProps<{
-  path: string
-  styles?: any
-}>()
+  defineProps<{
+    path: string
+    styles?: any
+  }>()
 
-const url = ref(import.meta.env.VITE_BASE_URL)
-
+  const url = ref(import.meta.env.VITE_BASE_URL)
 </script>
 
 <style scoped>
   img {
+    flex-shrink: 0;
     width: 64px;
     height: 64px;
     object-fit: cover;

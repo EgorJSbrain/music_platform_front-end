@@ -14,17 +14,18 @@
         :key="item._id"
         :track="item"
         :setCurrentTrack="setCurrentTrack"
+        :isPlayed="item._id === currentTrack?._id && isPlayed"
       />
     </div>
 
   <TrackModal
-    :toggleModalVisible="toggleModalVisible"
     :isModalVisible="isModalVisible"
+    :toggleModalVisible="toggleModalVisible"
   />
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, computed } from 'vue';
 
   import { ButtonVariants } from '@/constants/global';
   import { useTracksStore } from '@/stores/tracks'
@@ -36,9 +37,13 @@
   import TrackItem from '@/components/AppTrackItem.vue'
   import type { ITrack } from '@/types/track';
 
-  const isModalVisible = ref(false)
   const tracks = useTracksStore()
   const player = usePlayerStore()
+
+  const isModalVisible = ref(false)
+
+  const currentTrack = computed(() => player.currentTrack)
+  const isPlayed = computed(() => player.isPlayed)
 
   const toggleModalVisible = () => {
     isModalVisible.value = !isModalVisible.value
@@ -49,9 +54,8 @@
   }
 
   onMounted(() => {
-    tracks.getMyTracksByUserId()
+    tracks.getMyTracks()
   })
-
 </script>
 
 <style>
