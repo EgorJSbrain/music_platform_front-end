@@ -14,7 +14,7 @@
       <input ref="audio" v-model="inputValue" @input="handleSetToTime" type="range" :min="0" :max="duration">
   </div>
     <audio
-      :volume="0.1"
+      :volume="volume"
       ref="audio"
       autoplay
       :min="0"
@@ -28,6 +28,8 @@
       <IconPlay v-if="!player.isPlayed" />
       <IconPause v-if="player.isPlayed" />
     </IconButton>
+
+    <Volume :volume="volume" :change-volume="handleChangeVolume" :toggle-silence="handleToggleSilence"/>
   </div>
 </template>
 
@@ -38,6 +40,7 @@
   import { formatSecondsToTime } from '@/utils/formatTime'
 
   import IconButton from '@/components/AppIconButton.vue';
+  import Volume from '@/components/AppVolume.vue';
   import IconPlay from '@/components/icons/IconPlay.vue';
   import IconPause from '@/components/icons/IconPause.vue';
 
@@ -47,6 +50,7 @@
   const audio = ref<HTMLAudioElement | null>(null)
   const inputValue = ref<number>(0)
   const duration = ref<number>(0)
+  const volume = ref<number>(1)
   const isPlayed = computed<boolean>(() => player.isPlayed);
 
   watch(isPlayed, () => {
@@ -79,10 +83,18 @@
 
   const handleSetToTime = (e: Event) => {
     const input = e.target as HTMLInputElement
-    const time =  Number(input.value)
+    const time = Number(input.value)
 
     audio.value!.currentTime = time ?? 0
     inputValue.value = time
+  }
+
+  const handleChangeVolume = (value: number) => {
+    volume.value = value / 100
+  }
+
+  const handleToggleSilence = () => {
+    volume.value = volume.value > 0 ? 0 : 0.5
   }
 </script>
 
